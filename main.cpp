@@ -12,15 +12,6 @@ class Board {
 	private:
 		int row;
 		int column;
-		vector<vector<string>> board {{"%","a","b","c","d","e","f","g","h"},
-										{"8","o","x","o","x","o","x","o","x"},
-										{"7","x","o","x","o","x","o","x","o"},
-										{"6","o","x","o","x","o","x","o","x"},
-										{"5","x","o","x","o","x","o","x","o"},
-										{"4","o","x","o","x","o","x","o","x"},
-										{"3","x","o","x","o","x","o","x","o"},
-										{"2","o","x","o","x","o","x","o","x"},
-										{"1","x","o","x","o","x","o","x","o"},};						
 		map<string, vector<int>> positions = {
 			{"a8",{1,1}},{"b8",{1,2}},{"c8",{1,3}},{"d8",{1,4}},{"e8",{1,5}},{"f8",{1,6}},{"g8",{1,7}},{"h8",{1,8}},
 			{"a7",{2,1}},{"b7",{2,2}},{"c7",{2,3}},{"d7",{2,4}},{"e7",{2,5}},{"f7",{2,6}},{"g7",{2,7}},{"h7",{2,8}},
@@ -32,6 +23,15 @@ class Board {
 			{"a1",{8,1}},{"b1",{8,2}},{"c1",{8,3}},{"d1",{8,4}},{"e1",{8,5}},{"f1",{8,6}},{"g1",{8,7}},{"h1",{8,8}},
 		};
 	public:
+		vector<vector<string>> board {{"%","a","b","c","d","e","f","g","h"},
+										{"8","o","x","o","x","o","x","o","x"},
+										{"7","x","o","x","o","x","o","x","o"},
+										{"6","o","x","o","x","o","x","o","x"},
+										{"5","x","o","x","o","x","o","x","o"},
+										{"4","o","x","o","x","o","x","o","x"},
+										{"3","x","o","x","o","x","o","x","o"},
+										{"2","o","x","o","x","o","x","o","x"},
+										{"1","x","o","x","o","x","o","x","o"},};						
 		Board() {
 			for(row = 0; row < 9; row ++){
 					cout<<endl;
@@ -40,6 +40,12 @@ class Board {
 				}
 		}
 	}
+		vector<int> getPosition(string position){
+			return positions[position];
+		}
+		vector<vector<string>> getBoard(){
+			return board;
+		}
 };
 
 class ChessPiece{
@@ -48,31 +54,32 @@ class ChessPiece{
 		vector<vector<int>> fmove;
 	public:
 		ChessPiece(string image):fimage(image) {}
+		string getImage(){
+			return fimage;
+		}
 };
 
-class King:private ChessPiece{
+class King:public ChessPiece{
 	public:
 		King(string image):ChessPiece(image){
 			fmove = {{1,1},{-1,-1},{1,-1},{-1,1}};
 		}
 };
 
-class BlackKing: private King{
+class BlackKing: public King{
 	public:
-		BlackKing(string image):King(image){
-				image = "/u265A";
+		BlackKing(string image = "/u265A"):King(image){
 			}
 		};
 
-class WhiteKing: private King{
+class WhiteKing: public King{
 	public:
-		WhiteKing(string image):King(image){
-				image = "/u2654";
+		WhiteKing(string	image = "/u2654"):King(image){
 			}
 };
 
 
-class Queen:private ChessPiece{
+class Queen:public ChessPiece{
 	public:
 		Queen(string image):ChessPiece(image){
 			fmove={{0,1},{0,2},{0,3},{0,4},{0,5},{0,6},{0,7},{0,8},{1,0},{2,0},{3,0},{4,0},{5,0},{6,0},{7,0},{8,0},
@@ -80,20 +87,18 @@ class Queen:private ChessPiece{
 		}
 };
 
-class BlackQueen: private Queen{
+class BlackQueen: public Queen{
 	public:
-		BlackQueen(string image):Queen(image){
-				image = "/u265B";
+		BlackQueen(string	image = "/u265B" ):Queen(image){
 			}
 };
 
-class WhiteQueen: private Queen{
+class WhiteQueen: public Queen{
 	public:
-		WhiteQueen(string image):Queen(image){
-				image = "/u2655";
+		WhiteQueen(string	image = "/u2655"):Queen(image){
 			}
 };
-class Rook:private ChessPiece{
+class Rook:public ChessPiece{
 	public:
 		Rook(string image):ChessPiece(image){
 			fmove={{0,1},{0,2},{0,3},{0,4},{0,5},{0,6},{0,7},{0,8},{1,0},{2,0},{3,0},{4,0},{5,0},{6,0},{7,0},{8,0}};
@@ -101,105 +106,101 @@ class Rook:private ChessPiece{
 };
 
 
-class BlackRook: private Rook{
+class BlackRook: public Rook{
 	public:
-		BlackRook(string image):Rook(image){
-				image = "/u265C";
+		BlackRook(string image = "/u265C"):Rook(image){
 			}
 };
 
 
-class WhiteRook: private Rook{
+class WhiteRook: public Rook{
 	public:
-		WhiteRook(string image):Rook(image){
-				image = "/u2656";
+		WhiteRook(string 	image = "/u2656"):Rook(image){
 			}
 };
-class Bishop:private ChessPiece{
+
+class Bishop:public ChessPiece{
 	public:
 		Bishop(string image):ChessPiece(image){
 			fmove={{1,1},{2,2},{3,3},{4,4},{5,5},{6,6},{7,7,},{8,8},{-1,-1},{-2,-2},{-3,-3},{-4,-4},{-5,-5},{-6,-6},{-7,-7},{-8,-8}};
 		}
 };
 
-class WhiteBishop: private Bishop{
+class WhiteBishop: public Bishop{
 	public:
-		WhiteBishop(string image):Bishop(image){
-				image = "/u2657";
+		WhiteBishop(string 	image = "/u2657"):Bishop(image){
 			}
 };
 
-class BlackBishop: private Bishop{
+class BlackBishop: public Bishop{
 	public:
-		BlackBishop(string image):Bishop(image){
-				image = "/u265D";
+		BlackBishop(string 	image = "/u265D"):Bishop(image){
 			}
 };
-class Knight:private ChessPiece{
+class Knight:public ChessPiece{
 	public:
 		Knight(string image):ChessPiece(image){
 			fmove={{2,1},{2,-1},{-2,1},{-2,-1},{1,2},{-1,2},{1,-2},{-1,-2}};
 		}
 };
 
-class WhiteKnight: private Knight{
+class WhiteKnight: public Knight{
 	public:
-		WhiteKnight(string image):Knight(image){
-				image = "/u2658";
+		WhiteKnight(string 	image = "/u2658"):Knight(image){
 			}
 };
 
-class BlackKnight: private Knight{
+class BlackKnight: public Knight{
 	public:
-		BlackKnight(string image):Knight(image){
-				image = "/u265E";
+		BlackKnight(string 	image = "/u265E"):Knight(image){
 			}
 };
 
-class Pawn:private ChessPiece{
+class Pawn:public ChessPiece{
 	public:
 		Pawn(string image):ChessPiece(image){
 			fmove={{1,0},{2,0}};
 		}
 };
 
-class BlackPawn: private Pawn{
+class BlackPawn: public Pawn{
 	public:
-		BlackPawn(string image):Pawn(image){
-				image = "/u265F";
+		BlackPawn(string 	image = "/u265F"):Pawn(image){
 			}
 };
 
-class WhitePawn: private Pawn{
+class WhitePawn: public Pawn{
 	public:
-		WhitePawn(string image):Pawn(image){
-				image = "/u2659";
+		WhitePawn(string image = "/u2659"):Pawn(image){
 			}
 };
 
-/*class Game{
+class Game{
 	private:
-		int turn;
-		Board Board;
-		WhiteKing WhiteKing;
-		BlackKing BlackKing
-		WhiteQueen WhiteQueen;
-		BlackQueen BlackQueen;
-		WhiteRook WhiteRook;
-		BlackRook BlackRook;
-		WhiteBishop WhiteBishop;
-		BlackBishop BlackBishop;
-		WhiteKnight WhiteKnight;
-		BlackKnight BlackKnight;
-		WhitePawn WhitePawn;
-		BlackPawn BlackPawn;
+		int turn = 1;
+		Board board;
+		WhiteKing whiteKing;
+		BlackKing blackKing;
+		WhiteQueen whiteQueen;
+		BlackQueen blackQueen;
+		WhiteRook whiteRook;
+		BlackRook blackRook;
+		WhiteBishop whiteBishop;
+		BlackBishop blackBishop;
+		WhiteKnight whiteKnight;
+		BlackKnight blackKnight;
+		WhitePawn whitePawn;
+		BlackPawn blackPawn;
 
 	public:
-};*/
+		Game(){
+			vector<vector<string>> chessBoard = board.getBoard();
+			chessBoard[board.getPosition("a8")[0]][board.getPosition("a8")[1]] = blackRook.getImage();
+		}
+
+};
 
 int main() {
-    Board board;
-	
-	cout<<endl<<"\u2654"<<"\u265A";
+	Game game;	
     return 0;
 }
