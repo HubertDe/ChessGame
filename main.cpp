@@ -2,6 +2,7 @@
 #include <vector>
 #include <map>
 
+using std::cin;
 using std::cout;
 using std::vector;
 using std::string;
@@ -39,11 +40,11 @@ class Board {
 		vector<int> getPosition(string position){
 			return positions[position];
 		}
-		vector<vector<string>> getBoard(){
-			return board;
+		string getBoard(vector<int> position){
+			return board[position[0]][position[1]];
 		}
-		void setBoard(int x, int y, string image){
-			board[y][x] = image;
+		void setBoard(vector<int> position, string image){
+			board[position[0]][position[1]] = image;
 		}
 
 
@@ -189,6 +190,7 @@ class Game{
 	private:
 		int turn = 1;
 		Board chessBoard;
+		Board boardToCompare;
 		WhiteKing whiteKing;
 		BlackKing blackKing;
 		WhiteQueen whiteQueen;
@@ -201,50 +203,79 @@ class Game{
 		BlackKnight blackKnight;
 		WhitePawn whitePawn;
 		BlackPawn blackPawn;
-
+		string chooseChessPieceToBeMoved = "Wybierz figure, ktora chcesz ruszyc: ";
+		string chooseWhereChessPieceWillBeMoved = "Wybierz pole, na ktore chcesz przejsc: ";
 	public:
 		Game(){
-			chessBoard.setBoard(chessBoard.getPosition("a8")[0],chessBoard.getPosition("a8")[1],blackRook.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("a7")[0],chessBoard.getPosition("a7")[1],blackKnight.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("a6")[0],chessBoard.getPosition("a6")[1],blackBishop.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("a5")[0],chessBoard.getPosition("a5")[1],blackQueen.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("a4")[0],chessBoard.getPosition("a4")[1],blackKing.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("a3")[0],chessBoard.getPosition("a3")[1],blackBishop.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("a2")[0],chessBoard.getPosition("a2")[1],blackKnight.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("a1")[0],chessBoard.getPosition("a1")[1],blackRook.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("b1")[0],chessBoard.getPosition("b1")[1],blackPawn.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("b2")[0],chessBoard.getPosition("b2")[1],blackPawn.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("b3")[0],chessBoard.getPosition("b3")[1],blackPawn.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("b4")[0],chessBoard.getPosition("b4")[1],blackPawn.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("b5")[0],chessBoard.getPosition("b5")[1],blackPawn.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("b6")[0],chessBoard.getPosition("b6")[1],blackPawn.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("b7")[0],chessBoard.getPosition("b7")[1],blackPawn.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("b8")[0],chessBoard.getPosition("b8")[1],blackPawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("a8"),blackRook.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("b8"),blackKnight.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("c8"),blackBishop.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("d8"),blackQueen.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("e8"),blackKing.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("f8"),blackBishop.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("g8"),blackKnight.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("h8"),blackRook.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("a7"),blackPawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("b7"),blackPawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("c7"),blackPawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("d7"),blackPawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("e7"),blackPawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("f7"),blackPawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("g7"),blackPawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("h7"),blackPawn.getImage());
 			
-			chessBoard.setBoard(chessBoard.getPosition("h8")[0],chessBoard.getPosition("h8")[1],whiteRook.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("h7")[0],chessBoard.getPosition("h7")[1],whiteKnight.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("h6")[0],chessBoard.getPosition("h6")[1],whiteBishop.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("h5")[0],chessBoard.getPosition("h5")[1],whiteQueen.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("h4")[0],chessBoard.getPosition("h4")[1],whiteKing.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("h3")[0],chessBoard.getPosition("h3")[1],whiteBishop.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("h2")[0],chessBoard.getPosition("h2")[1],whiteKnight.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("h1")[0],chessBoard.getPosition("h1")[1],whiteRook.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("g1")[0],chessBoard.getPosition("g1")[1],whitePawn.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("g2")[0],chessBoard.getPosition("g2")[1],whitePawn.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("g3")[0],chessBoard.getPosition("g3")[1],whitePawn.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("g4")[0],chessBoard.getPosition("g4")[1],whitePawn.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("g5")[0],chessBoard.getPosition("g5")[1],whitePawn.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("g6")[0],chessBoard.getPosition("g6")[1],whitePawn.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("g7")[0],chessBoard.getPosition("g7")[1],whitePawn.getImage());
-			chessBoard.setBoard(chessBoard.getPosition("g8")[0],chessBoard.getPosition("g8")[1],whitePawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("a1"),whiteRook.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("b1"),whiteKnight.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("c1"),whiteBishop.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("d1"),whiteQueen.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("e1"),whiteKing.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("f1"),whiteBishop.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("g1"),whiteKnight.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("h1"),whiteRook.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("a2"),whitePawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("b2"),whitePawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("c2"),whitePawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("d2"),whitePawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("e2"),whitePawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("f2"),whitePawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("g2"),whitePawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("h2"),whitePawn.getImage());
 			
 			chessBoard.visualizeBoard();
 		}
+	void moveChessPiece(){
+		cout<<endl<<chooseChessPieceToBeMoved<<endl;
+		string chessPieceCurrentPosition;
+		cin>>chessPieceCurrentPosition;
+		cout<<chooseWhereChessPieceWillBeMoved<< endl;
+		string chessPieceDestination;
+		cin>>chessPieceDestination;
+		string currentImage = chessBoard.getBoard(chessBoard.getPosition(chessPieceCurrentPosition));
+		string standardImage = boardToCompare.getBoard(boardToCompare.getPosition(chessPieceCurrentPosition));
+		
+		if(currentImage == "x" || currentImage == "o"){
+			cout<<"To nie figura. Sproboj ponownie"<<endl;
+		} else if(turn%2 == 0 && (currentImage =="♔" || currentImage =="♕" || currentImage == "♖" || currentImage == "♗" || currentImage == "♘"
+									|| currentImage == "♙")){
 
+
+			chessBoard.setBoard(chessBoard.getPosition(chessPieceDestination), currentImage);
+			chessBoard.setBoard(chessBoard.getPosition(chessPieceCurrentPosition), standardImage);
+			turn ++;
+			chessBoard.visualizeBoard();
+		} else if(turn%2 == 1 && (currentImage =="♚" || currentImage =="♛" || currentImage == "♜" || currentImage == "♝" || currentImage == "♞"
+									|| currentImage == "♟")){
+			
+			chessBoard.setBoard(chessBoard.getPosition(chessPieceDestination), currentImage);
+			chessBoard.setBoard(chessBoard.getPosition(chessPieceCurrentPosition), standardImage);
+			turn ++;
+			chessBoard.visualizeBoard();
+		}
+	}
 };
 
 int main() {
 	Game game;
-	cout<<"♚";
+	game.moveChessPiece();
     return 0;
 }
