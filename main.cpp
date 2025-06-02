@@ -33,18 +33,28 @@ class Board {
 										{"2","o","x","o","x","o","x","o","x"},
 										{"1","x","o","x","o","x","o","x","o"},};						
 		Board() {
+		}
+		
+	
+		vector<int> getPosition(string position){
+			return positions[position];
+		}
+		vector<vector<string>> getBoard(){
+			return board;
+		}
+		void setBoard(int x, int y, string image){
+			board[y][x] = image;
+		}
+
+
+		void visualizeBoard(){
+
 			for(row = 0; row < 9; row ++){
 					cout<<endl;
 				for (column = 0 ;column < 9; column++){
 					cout<< board[row][column];
 				}
 		}
-	}
-		vector<int> getPosition(string position){
-			return positions[position];
-		}
-		vector<vector<string>> getBoard(){
-			return board;
 		}
 };
 
@@ -68,13 +78,13 @@ class King:public ChessPiece{
 
 class BlackKing: public King{
 	public:
-		BlackKing(string image = "/u265A"):King(image){
+		BlackKing(string image = "♔"):King(image){
 			}
 		};
 
 class WhiteKing: public King{
 	public:
-		WhiteKing(string	image = "/u2654"):King(image){
+		WhiteKing(string	image = "♚"):King(image){
 			}
 };
 
@@ -89,13 +99,13 @@ class Queen:public ChessPiece{
 
 class BlackQueen: public Queen{
 	public:
-		BlackQueen(string	image = "/u265B" ):Queen(image){
+		BlackQueen(string	image = "♕" ):Queen(image){
 			}
 };
 
 class WhiteQueen: public Queen{
 	public:
-		WhiteQueen(string	image = "/u2655"):Queen(image){
+		WhiteQueen(string	image = "♛"):Queen(image){
 			}
 };
 class Rook:public ChessPiece{
@@ -108,14 +118,14 @@ class Rook:public ChessPiece{
 
 class BlackRook: public Rook{
 	public:
-		BlackRook(string image = "/u265C"):Rook(image){
+		BlackRook(string image = "♖"):Rook(image){
 			}
 };
 
 
 class WhiteRook: public Rook{
 	public:
-		WhiteRook(string 	image = "/u2656"):Rook(image){
+		WhiteRook(string 	image = "♜"):Rook(image){
 			}
 };
 
@@ -128,13 +138,13 @@ class Bishop:public ChessPiece{
 
 class WhiteBishop: public Bishop{
 	public:
-		WhiteBishop(string 	image = "/u2657"):Bishop(image){
+		WhiteBishop(string 	image = "♝"):Bishop(image){
 			}
 };
 
 class BlackBishop: public Bishop{
 	public:
-		BlackBishop(string 	image = "/u265D"):Bishop(image){
+		BlackBishop(string 	image = "♗"):Bishop(image){
 			}
 };
 class Knight:public ChessPiece{
@@ -146,13 +156,13 @@ class Knight:public ChessPiece{
 
 class WhiteKnight: public Knight{
 	public:
-		WhiteKnight(string 	image = "/u2658"):Knight(image){
+		WhiteKnight(string 	image = "♞"):Knight(image){
 			}
 };
 
 class BlackKnight: public Knight{
 	public:
-		BlackKnight(string 	image = "/u265E"):Knight(image){
+		BlackKnight(string 	image = "♘"):Knight(image){
 			}
 };
 
@@ -165,20 +175,20 @@ class Pawn:public ChessPiece{
 
 class BlackPawn: public Pawn{
 	public:
-		BlackPawn(string 	image = "/u265F"):Pawn(image){
+		BlackPawn(string 	image = "♙"):Pawn(image){
 			}
 };
 
 class WhitePawn: public Pawn{
 	public:
-		WhitePawn(string image = "/u2659"):Pawn(image){
+		WhitePawn(string image = "♟"):Pawn(image){
 			}
 };
 
 class Game{
 	private:
 		int turn = 1;
-		Board board;
+		Board chessBoard;
 		WhiteKing whiteKing;
 		BlackKing blackKing;
 		WhiteQueen whiteQueen;
@@ -194,13 +204,47 @@ class Game{
 
 	public:
 		Game(){
-			vector<vector<string>> chessBoard = board.getBoard();
-			chessBoard[board.getPosition("a8")[0]][board.getPosition("a8")[1]] = blackRook.getImage();
+			chessBoard.setBoard(chessBoard.getPosition("a8")[0],chessBoard.getPosition("a8")[1],blackRook.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("a7")[0],chessBoard.getPosition("a7")[1],blackKnight.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("a6")[0],chessBoard.getPosition("a6")[1],blackBishop.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("a5")[0],chessBoard.getPosition("a5")[1],blackQueen.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("a4")[0],chessBoard.getPosition("a4")[1],blackKing.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("a3")[0],chessBoard.getPosition("a3")[1],blackBishop.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("a2")[0],chessBoard.getPosition("a2")[1],blackKnight.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("a1")[0],chessBoard.getPosition("a1")[1],blackRook.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("b1")[0],chessBoard.getPosition("b1")[1],blackPawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("b2")[0],chessBoard.getPosition("b2")[1],blackPawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("b3")[0],chessBoard.getPosition("b3")[1],blackPawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("b4")[0],chessBoard.getPosition("b4")[1],blackPawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("b5")[0],chessBoard.getPosition("b5")[1],blackPawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("b6")[0],chessBoard.getPosition("b6")[1],blackPawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("b7")[0],chessBoard.getPosition("b7")[1],blackPawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("b8")[0],chessBoard.getPosition("b8")[1],blackPawn.getImage());
+			
+			chessBoard.setBoard(chessBoard.getPosition("h8")[0],chessBoard.getPosition("h8")[1],whiteRook.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("h7")[0],chessBoard.getPosition("h7")[1],whiteKnight.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("h6")[0],chessBoard.getPosition("h6")[1],whiteBishop.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("h5")[0],chessBoard.getPosition("h5")[1],whiteQueen.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("h4")[0],chessBoard.getPosition("h4")[1],whiteKing.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("h3")[0],chessBoard.getPosition("h3")[1],whiteBishop.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("h2")[0],chessBoard.getPosition("h2")[1],whiteKnight.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("h1")[0],chessBoard.getPosition("h1")[1],whiteRook.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("g1")[0],chessBoard.getPosition("g1")[1],whitePawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("g2")[0],chessBoard.getPosition("g2")[1],whitePawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("g3")[0],chessBoard.getPosition("g3")[1],whitePawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("g4")[0],chessBoard.getPosition("g4")[1],whitePawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("g5")[0],chessBoard.getPosition("g5")[1],whitePawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("g6")[0],chessBoard.getPosition("g6")[1],whitePawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("g7")[0],chessBoard.getPosition("g7")[1],whitePawn.getImage());
+			chessBoard.setBoard(chessBoard.getPosition("g8")[0],chessBoard.getPosition("g8")[1],whitePawn.getImage());
+			
+			chessBoard.visualizeBoard();
 		}
 
 };
 
 int main() {
-	Game game;	
+	Game game;
+	cout<<"♚";
     return 0;
 }
