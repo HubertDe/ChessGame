@@ -35,7 +35,14 @@ class Board {
 										{"1","x","o","x","o","x","o","x","o"},};						
 		Board() {
 		}
-		
+
+		vector<string> getMapPosition(){
+			vector<string> mapCoordinates;
+			for(auto element : positions){
+				mapCoordinates.push_back(element.first);
+			}
+			return mapCoordinates;
+		}
 	
 		vector<int> getPosition(string position){
 			return positions[position];
@@ -67,6 +74,9 @@ class ChessPiece{
 		ChessPiece(string image):fimage(image) {}
 		string getImage(){
 			return fimage;
+		}
+		vector<vector<int>> getChessPieceAllowedMoves(){
+			return fmove;
 		}
 };
 
@@ -250,13 +260,21 @@ class Game{
 		cout<<chooseWhereChessPieceWillBeMoved<< endl;
 		string chessPieceDestination;
 		cin>>chessPieceDestination;
-		string currentImage = chessBoard.getBoard(chessBoard.getPosition(chessPieceCurrentPosition));
-		string standardImage = boardToCompare.getBoard(boardToCompare.getPosition(chessPieceCurrentPosition));
-		
-		if(currentImage == "x" || currentImage == "o"){
+		string currentImage;
+		string standardImage;
+		if (checkIfChessPositionIsTypedCorrectly(chessPieceCurrentPosition)&&checkIfChessPositionIsTypedCorrectly(chessPieceDestination)){
+			currentImage = chessBoard.getBoard(chessBoard.getPosition(chessPieceCurrentPosition));
+			standardImage = boardToCompare.getBoard(boardToCompare.getPosition(chessPieceCurrentPosition));
+		}else{
+			cout<<"Niepoprawne dane wejściowe"<<endl;
+			}
+		if((currentImage == "x" || currentImage == "o")&&checkIfChessPositionIsTypedCorrectly(chessPieceDestination)&& 
+				checkIfChessPositionIsTypedCorrectly(chessPieceCurrentPosition)){
 			cout<<"To nie figura. Sproboj ponownie"<<endl;
 		} else if(turn%2 == 0 && (currentImage =="♔" || currentImage =="♕" || currentImage == "♖" || currentImage == "♗" || currentImage == "♘"
-									|| currentImage == "♙")){
+									|| currentImage == "♙")&& checkIfChessPositionIsTypedCorrectly(chessPieceDestination)&& 
+				                     checkIfChessPositionIsTypedCorrectly(chessPieceCurrentPosition)&&checkTheMoveAccordinglyToChessPiece(currentImage,
+								    chessPieceCurrentPosition,chessPieceDestination)){
 
 
 			chessBoard.setBoard(chessBoard.getPosition(chessPieceDestination), currentImage);
@@ -264,14 +282,77 @@ class Game{
 			turn ++;
 			chessBoard.visualizeBoard();
 		} else if(turn%2 == 1 && (currentImage =="♚" || currentImage =="♛" || currentImage == "♜" || currentImage == "♝" || currentImage == "♞"
-									|| currentImage == "♟")){
+				|| currentImage == "♟")&& checkIfChessPositionIsTypedCorrectly(chessPieceDestination)&& 
+				checkIfChessPositionIsTypedCorrectly(chessPieceCurrentPosition)&&checkTheMoveAccordinglyToChessPiece(currentImage,chessPieceCurrentPosition,				chessPieceDestination)){
 			
 			chessBoard.setBoard(chessBoard.getPosition(chessPieceDestination), currentImage);
 			chessBoard.setBoard(chessBoard.getPosition(chessPieceCurrentPosition), standardImage);
 			turn ++;
 			chessBoard.visualizeBoard();
-		}
+		}else{
+			cout<<"Ten ruch jest zabroniony"<<endl;
 	}
+	}
+	bool checkIfChessPositionIsTypedCorrectly(string chessPieceRoute){
+		bool thereIs=0;
+		vector<string> mapVector = chessBoard.getMapPosition();
+		for(int i = 0; i < mapVector.size()-1; i++) {
+			if (mapVector[i] == chessPieceRoute){
+				thereIs = 1;
+			}
+		}
+		return thereIs;
+	}
+	bool checkTheMoveAccordinglyToChessPiece(string currentImage, string chessPieceCurrentPosition, string chessPieceDestination){
+		bool allowed = 0;
+		vector<int> moveVector = {chessBoard.getPosition(chessPieceDestination)[0]-chessBoard.getPosition(chessPieceCurrentPosition[0],
+								  chessBoard.getPosition(chessPieceDestination)[1]-chessBoard.getPosition(chessPieceCurrentPosition[1])};
+		switch(currentImage){
+			case "♔" || "♚":
+				for(int i ; i < whiteKing.getChessPieceAllowedMoves().size();i++){
+					if (whiteKing.getChessPieceAllowedMoves[i] == moveVector){
+						allowed = 1;
+						}
+					}
+			case "♕" || "♛":
+
+				for(int i ; i < whiteQueen.getChessPieceAllowedMoves().size();i++){
+					if (whiteQueen.getChessPieceAllowedMoves[i] == moveVector){
+						allowed = 1;
+						}
+					}
+			case "♖" || "♜":
+
+				for(int i ; i < whiteRook.getChessPieceAllowedMoves().size();i++){
+					if (whiteRook.getChessPieceAllowedMoves[i] == moveVector){
+						allowed = 1;
+						}
+					}
+			case "♗" || "♝":
+
+				for(int i ; i < whiteBishop.getChessPieceAllowedMoves().size();i++){
+					if (whiteBishop.getChessPieceAllowedMoves[i] == moveVector){
+						allowed = 1;
+						}
+					}
+			case "♘" || "♞":
+
+				for(int i ; i < whiteKnight.getChessPieceAllowedMoves().size();i++){
+					if (whiteKnight.getChessPieceAllowedMoves[i] == moveVector){
+						allowed = 1;
+						}
+					}
+			case "♙" || "♟":
+		
+				for(int i ; i < whitePawn.getChessPieceAllowedMoves().size();i++){
+					if (whitePawn.getChessPieceAllowedMoves[i] == moveVector){
+						allowed = 1;
+						}
+					}
+			}
+		return allowed;
+	}
+
 };
 
 int main() {
