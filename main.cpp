@@ -71,7 +71,7 @@ class ChessPiece{
 		string fimage;
 		vector<vector<int>> fmove;
 	public:
-		ChessPiece(string image):fimage(image) {}
+		ChessPiece(string image, vector<vector<int>> move):fimage(image), fmove(move) {}
 		string getImage(){
 			return fimage;
 		}
@@ -82,8 +82,7 @@ class ChessPiece{
 
 class King:public ChessPiece{
 	public:
-		King(string image):ChessPiece(image){
-			fmove = {{1,1},{-1,-1},{1,-1},{-1,1}};
+		King(string image):ChessPiece(image, {{1,1},{-1,-1},{1,-1},{-1,1},{0,1},{0,-1},{1,0},{-1,0}}){
 		}
 };
 
@@ -102,9 +101,8 @@ class WhiteKing: public King{
 
 class Queen:public ChessPiece{
 	public:
-		Queen(string image):ChessPiece(image){
-			fmove={{0,1},{0,2},{0,3},{0,4},{0,5},{0,6},{0,7},{0,8},{1,0},{2,0},{3,0},{4,0},{5,0},{6,0},{7,0},{8,0},
-			{1,1},{2,2},{3,3},{4,4},{5,5},{6,6},{7,7,},{8,8},{-1,-1},{-2,-2},{-3,-3},{-4,-4},{-5,-5},{-6,-6},{-7,-7},{-8,-8}};
+		Queen(string image):ChessPiece(image, {{0,1},{0,2},{0,3},{0,4},{0,5},{0,6},{0,7},{0,8},{1,0},{2,0},{3,0},{4,0},{5,0},{6,0},{7,0},{8,0},
+			{1,1},{2,2},{3,3},{4,4},{5,5},{6,6},{7,7,},{8,8},{-1,-1},{-2,-2},{-3,-3},{-4,-4},{-5,-5},{-6,-6},{-7,-7},{-8,-8},{0,-1},{0,-2},{0,-3},{0,-4},{0,-5},{0,-6},{0,-7},{0,-8},{-1,0},{-2,0},{-3,0},{-4,0},{-5,0},{-6,0},{-7,0},{-8,0},{1,-1},{2,-2},{3,-3},{4,-4},{5,-5},{6,-6},{7,-7},{8,-8},{-1,1},{-2,2},{-3,3},{-4,4},{-5,5},{-6,6},{-7,7},{-8,8}} ){
 		}
 };
 
@@ -121,8 +119,7 @@ class WhiteQueen: public Queen{
 };
 class Rook:public ChessPiece{
 	public:
-		Rook(string image):ChessPiece(image){
-			fmove={{0,1},{0,2},{0,3},{0,4},{0,5},{0,6},{0,7},{0,8},{1,0},{2,0},{3,0},{4,0},{5,0},{6,0},{7,0},{8,0}};
+		Rook(string image):ChessPiece(image,{{0,-1},{0,-2},{0,-3},{0,-4},{0,-5},{0,-6},{0,-7},{0,-8},{-1,0},{-2,0},{-3,0},{-4,0},{-5,0},{-6,0},{-7,0},{-8,0},{0,1},{0,2},{0,3},{0,4},{0,5},{0,6},{0,7},{0,8},{1,0},{2,0},{3,0},{4,0},{5,0},{6,0},{7,0},{8,0}}){
 		}
 };
 
@@ -142,8 +139,7 @@ class WhiteRook: public Rook{
 
 class Bishop:public ChessPiece{
 	public:
-		Bishop(string image):ChessPiece(image){
-			fmove={{1,1},{2,2},{3,3},{4,4},{5,5},{6,6},{7,7,},{8,8},{-1,-1},{-2,-2},{-3,-3},{-4,-4},{-5,-5},{-6,-6},{-7,-7},{-8,-8}};
+		Bishop(string image):ChessPiece(image,{{1,-1},{2,-2},{3,-3},{4,-4},{5,-5},{6,-6},{7,-7},{8,-8},{-1,1},{-2,2},{-3,3},{-4,4},{-5,5},{-6,6},{-7,7},{-8,8},{1,1},{2,2},{3,3},{4,4},{5,5},{6,6},{7,7},{8,8},{-1,-1},{-2,-2},{-3,-3},{-4,-4},{-5,-5},{-6,-6},{-7,-7},{-8,-8}}){
 		}
 };
 
@@ -160,8 +156,7 @@ class BlackBishop: public Bishop{
 };
 class Knight:public ChessPiece{
 	public:
-		Knight(string image):ChessPiece(image){
-			fmove={{2,1},{2,-1},{-2,1},{-2,-1},{1,2},{-1,2},{1,-2},{-1,-2}};
+		Knight(string image):ChessPiece(image,{{2,1},{2,-1},{-2,1},{-2,-1},{1,2},{-1,2},{1,-2},{-1,-2}} ){
 		}
 };
 
@@ -179,20 +174,19 @@ class BlackKnight: public Knight{
 
 class Pawn:public ChessPiece{
 	public:
-		Pawn(string image):ChessPiece(image){
-			fmove={{1,0},{2,0}};
+		Pawn(string image, vector<vector<int>> move):ChessPiece(image, move){
 		}
 };
 
 class BlackPawn: public Pawn{
 	public:
-		BlackPawn(string 	image = "♙"):Pawn(image){
+		BlackPawn(string image = "♙"):Pawn(image, {{-1,0},{-2,0},{-1,-1},{-1,1}}){
 			}
 };
 
 class WhitePawn: public Pawn{
 	public:
-		WhitePawn(string image = "♟"):Pawn(image){
+		WhitePawn(string image = "♟"):Pawn(image,{{1,0} , {2,0}, {1,1}, {1,-1}}){
 			}
 };
 
@@ -272,9 +266,8 @@ class Game{
 				checkIfChessPositionIsTypedCorrectly(chessPieceCurrentPosition)){
 			cout<<"To nie figura. Sproboj ponownie"<<endl;
 		} else if(turn%2 == 0 && (currentImage =="♔" || currentImage =="♕" || currentImage == "♖" || currentImage == "♗" || currentImage == "♘"
-									|| currentImage == "♙")&& checkIfChessPositionIsTypedCorrectly(chessPieceDestination)&& 
-				                     checkIfChessPositionIsTypedCorrectly(chessPieceCurrentPosition)&&checkTheMoveAccordinglyToChessPiece(currentImage,
-								    chessPieceCurrentPosition,chessPieceDestination)){
+				|| currentImage == "♙")&& checkIfChessPositionIsTypedCorrectly(chessPieceDestination)&& checkIfChessPositionIsTypedCorrectly(chessPieceCurrentPosition)
+				&&checkTheMoveAccordinglyToChessPiece(currentImage, chessPieceCurrentPosition,chessPieceDestination)){
 
 
 			chessBoard.setBoard(chessBoard.getPosition(chessPieceDestination), currentImage);
@@ -282,8 +275,8 @@ class Game{
 			turn ++;
 			chessBoard.visualizeBoard();
 		} else if(turn%2 == 1 && (currentImage =="♚" || currentImage =="♛" || currentImage == "♜" || currentImage == "♝" || currentImage == "♞"
-				|| currentImage == "♟")&& checkIfChessPositionIsTypedCorrectly(chessPieceDestination)&& 
-				checkIfChessPositionIsTypedCorrectly(chessPieceCurrentPosition)&&checkTheMoveAccordinglyToChessPiece(currentImage,chessPieceCurrentPosition,				chessPieceDestination)){
+				|| currentImage == "♟")&& checkIfChessPositionIsTypedCorrectly(chessPieceDestination)&& checkIfChessPositionIsTypedCorrectly(chessPieceCurrentPosition)&&
+				checkTheMoveAccordinglyToChessPiece(currentImage,chessPieceCurrentPosition,	chessPieceDestination)){
 			
 			chessBoard.setBoard(chessBoard.getPosition(chessPieceDestination), currentImage);
 			chessBoard.setBoard(chessBoard.getPosition(chessPieceCurrentPosition), standardImage);
@@ -296,7 +289,7 @@ class Game{
 	bool checkIfChessPositionIsTypedCorrectly(string chessPieceRoute){
 		bool thereIs=0;
 		vector<string> mapVector = chessBoard.getMapPosition();
-		for(int i = 0; i < mapVector.size()-1; i++) {
+		for(int i = 0; i < mapVector.size(); i++) {
 			if (mapVector[i] == chessPieceRoute){
 				thereIs = 1;
 			}
@@ -305,51 +298,58 @@ class Game{
 	}
 	bool checkTheMoveAccordinglyToChessPiece(string currentImage, string chessPieceCurrentPosition, string chessPieceDestination){
 		bool allowed = 0;
-		vector<int> moveVector = {chessBoard.getPosition(chessPieceDestination)[0]-chessBoard.getPosition(chessPieceCurrentPosition[0],
-								  chessBoard.getPosition(chessPieceDestination)[1]-chessBoard.getPosition(chessPieceCurrentPosition[1])};
-		switch(currentImage){
-			case "♔" || "♚":
-				for(int i ; i < whiteKing.getChessPieceAllowedMoves().size();i++){
-					if (whiteKing.getChessPieceAllowedMoves[i] == moveVector){
-						allowed = 1;
-						}
-					}
-			case "♕" || "♛":
-
-				for(int i ; i < whiteQueen.getChessPieceAllowedMoves().size();i++){
-					if (whiteQueen.getChessPieceAllowedMoves[i] == moveVector){
-						allowed = 1;
-						}
-					}
-			case "♖" || "♜":
-
-				for(int i ; i < whiteRook.getChessPieceAllowedMoves().size();i++){
-					if (whiteRook.getChessPieceAllowedMoves[i] == moveVector){
-						allowed = 1;
-						}
-					}
-			case "♗" || "♝":
-
-				for(int i ; i < whiteBishop.getChessPieceAllowedMoves().size();i++){
-					if (whiteBishop.getChessPieceAllowedMoves[i] == moveVector){
-						allowed = 1;
-						}
-					}
-			case "♘" || "♞":
-
-				for(int i ; i < whiteKnight.getChessPieceAllowedMoves().size();i++){
-					if (whiteKnight.getChessPieceAllowedMoves[i] == moveVector){
-						allowed = 1;
-						}
-					}
-			case "♙" || "♟":
+		cout<<currentImage<<endl;
+		vector<int> moveVector = {chessBoard.getPosition(chessPieceCurrentPosition)[0]-chessBoard.getPosition(chessPieceDestination)[0],
+								  chessBoard.getPosition(chessPieceCurrentPosition)[1]-chessBoard.getPosition(chessPieceDestination)[1]};
 		
-				for(int i ; i < whitePawn.getChessPieceAllowedMoves().size();i++){
-					if (whitePawn.getChessPieceAllowedMoves[i] == moveVector){
+			if(currentImage =="♔" || currentImage =="♚"){
+				for(int i =0; i < whiteKing.getChessPieceAllowedMoves().size();i++){
+					if (whiteKing.getChessPieceAllowedMoves()[i] == moveVector){
 						allowed = 1;
+						break;}
+					}
+			}else if( currentImage == "♕" || currentImage == "♛"){
+				for(int i =0; i < whiteQueen.getChessPieceAllowedMoves().size();i++){
+					if (whiteQueen.getChessPieceAllowedMoves()[i] == moveVector){
+						allowed = 1;
+						break;}
+					}
+			}else if(currentImage =="♖" || currentImage == "♜"){
+				for(int i =0; i < whiteRook.getChessPieceAllowedMoves().size();i++){
+					if (whiteRook.getChessPieceAllowedMoves()[i] == moveVector){
+						allowed = 1;
+						break;}
+					}
+			}else if(currentImage == "♗" || currentImage =="♝"){
+				for(int i =0; i < whiteBishop.getChessPieceAllowedMoves().size();i++){
+					if (whiteBishop.getChessPieceAllowedMoves()[i] == moveVector){
+						allowed = 1;
+						break;
+					}
+					}
+			
+			}else if(currentImage =="♘" ||currentImage == "♞"){
+				for(int i = 0; i < whiteKnight.getChessPieceAllowedMoves().size();i++){
+					if (whiteKnight.getChessPieceAllowedMoves()[i] == moveVector){
+						allowed = 1;
+						break;
+					}
+					}
+			}else if(currentImage == "♟"){
+				for(int i =0 ; i < whitePawn.getChessPieceAllowedMoves().size();i++){
+					if (whitePawn.getChessPieceAllowedMoves()[i] == moveVector){
+						allowed = 1;
+						break;
 						}
 					}
+			}else if(currentImage == "♙"){
+				for(int i =0 ; i < whitePawn.getChessPieceAllowedMoves().size();i++){
+					if (blackPawn.getChessPieceAllowedMoves()[i] == moveVector){
+						allowed = 1;
+						break;
+						}
 			}
+		}
 		return allowed;
 	}
 
@@ -357,6 +357,8 @@ class Game{
 
 int main() {
 	Game game;
+	while(true){
 	game.moveChessPiece();
+	}
     return 0;
 }
